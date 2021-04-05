@@ -78,17 +78,20 @@ func (s *testSubSetGenerator) TestSubSetGenerator() {
 	}
 }
 
-var subSetGenerator []string
+var subSetGeneratorResult [][]int
 
 func BenchmarkSubSetGenerator(b *testing.B) {
-	var r []string
-	g := generation.BinaryStringGenerator{}
+	var r [][]int
+	g := generation.SubSetGenerator{
+		N: 10,
+		K: 5,
+	}
 	for n := 0; n < b.N; n++ {
 		// always record the result of Fib to prevent
 		// the compiler eliminating the function call.
-		r = g.Generate(10)
+		r = g.Generate()
 	}
 	// always store the result to a package level variable
 	// so the compiler cannot eliminate the Benchmark itself.
-	result = r
+	subSetGeneratorResult = r
 }
