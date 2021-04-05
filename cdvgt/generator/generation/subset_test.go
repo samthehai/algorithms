@@ -4,18 +4,9 @@ import (
 	"testing"
 
 	"github.com/samthehai/algorithms/cdvgt/generator/generation"
-	"github.com/stretchr/testify/suite"
 )
 
-type testSubSetGenerator struct {
-	suite.Suite
-}
-
-func TestSubSetGenerator(t *testing.T) {
-	suite.Run(t, &testSubSetGenerator{})
-}
-
-func (s *testSubSetGenerator) TestSubSetGenerator() {
+func (s *GenerationTestSuit) TestSubSetGenerator() {
 	testcases := []struct {
 		name     string
 		N        int
@@ -66,32 +57,26 @@ func (s *testSubSetGenerator) TestSubSetGenerator() {
 
 	for _, c := range testcases {
 		s.T().Run(c.name, func(t *testing.T) {
-			g := generation.SubSetGenerator{
-				N: c.N,
-				K: c.K,
-			}
+			g := generation.Generation{}
 			s.Assert().Equal(
 				c.expected,
-				g.Generate(),
+				g.SubSetGenerate(c.N, c.K),
 			)
 		})
 	}
 }
 
-var subSetGeneratorResult [][]int
+var benchmarkSubSetGeneratorResult [][]int
 
 func BenchmarkSubSetGenerator(b *testing.B) {
 	var r [][]int
-	g := generation.SubSetGenerator{
-		N: 10,
-		K: 5,
-	}
+	g := generation.Generation{}
 	for n := 0; n < b.N; n++ {
 		// always record the result of Fib to prevent
 		// the compiler eliminating the function call.
-		r = g.Generate()
+		r = g.SubSetGenerate(10, 5)
 	}
 	// always store the result to a package level variable
 	// so the compiler cannot eliminate the Benchmark itself.
-	subSetGeneratorResult = r
+	benchmarkSubSetGeneratorResult = r
 }

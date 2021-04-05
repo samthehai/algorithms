@@ -1,22 +1,17 @@
 package generation
 
-type SubSetGenerator struct {
-	N int
-	K int
-}
-
-func (g *SubSetGenerator) Generate() [][]int {
+func (g *Generation) SubSetGenerate(n, k int) [][]int {
 	ss := make([][]int, 0)
 
-	if g.K > g.N || g.K <= 0 || g.N <= 0 {
+	if k > n || k <= 0 || n <= 0 {
 		return ss
 	}
 
-	current := g.first()
+	current := g.subSetGenerateFirst(n, k)
 	ss = append(ss, current)
 
-	for g.hasNext(current) {
-		next := g.generateNext(current)
+	for g.subSetGenerateHasNext(n, k, current) {
+		next := g.subSetGenerateNext(n, k, current)
 		ss = append(ss, next)
 
 		current = next
@@ -25,9 +20,9 @@ func (g *SubSetGenerator) Generate() [][]int {
 	return ss
 }
 
-func (g *SubSetGenerator) hasNext(current []int) bool {
-	for i := g.K - 1; i >= 0; i-- {
-		if current[i] != g.N+i-g.K+1 {
+func (g *Generation) subSetGenerateHasNext(n, k int, current []int) bool {
+	for i := k - 1; i >= 0; i-- {
+		if current[i] != n+i-k+1 {
 			return true
 		}
 	}
@@ -35,26 +30,26 @@ func (g *SubSetGenerator) hasNext(current []int) bool {
 	return false
 }
 
-func (g *SubSetGenerator) generateNext(current []int) []int {
-	next := make([]int, 0, g.K)
+func (g *Generation) subSetGenerateNext(n, k int, current []int) []int {
+	next := make([]int, 0, k)
 	next = append(next, current...)
 
-	idx := g.K - 1
-	for ; next[idx] == g.N+idx-g.K+1 && idx >= 0; idx-- {
+	idx := k - 1
+	for ; next[idx] == n+idx-k+1 && idx >= 0; idx-- {
 	}
 
 	next[idx] += 1
-	for i := idx + 1; i < g.K; i++ {
+	for i := idx + 1; i < k; i++ {
 		next[i] = next[i-1] + 1
 	}
 
 	return next
 }
 
-func (g *SubSetGenerator) first() []int {
-	s := make([]int, 0, g.K)
+func (g *Generation) subSetGenerateFirst(n, k int) []int {
+	s := make([]int, 0, k)
 
-	for i := 0; i < g.K; i++ {
+	for i := 0; i < k; i++ {
 		s = append(s, i+1)
 	}
 

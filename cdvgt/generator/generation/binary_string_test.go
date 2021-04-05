@@ -4,18 +4,9 @@ import (
 	"testing"
 
 	"github.com/samthehai/algorithms/cdvgt/generator/generation"
-	"github.com/stretchr/testify/suite"
 )
 
-type testBinaryStringGenerator struct {
-	suite.Suite
-}
-
-func TestBinaryStringGenerator(t *testing.T) {
-	suite.Run(t, &testBinaryStringGenerator{})
-}
-
-func (s *testBinaryStringGenerator) TestGenerateBinaryString() {
+func (s *GenerationTestSuit) TestGenerateBinaryString() {
 	testcases := []struct {
 		name     string
 		n        int
@@ -45,35 +36,31 @@ func (s *testBinaryStringGenerator) TestGenerateBinaryString() {
 
 	for _, c := range testcases {
 		s.T().Run(c.name, func(t *testing.T) {
-			g := generation.BinaryStringGenerator{
-				N: c.n,
-			}
+			g := generation.Generation{}
 			s.Assert().Equal(
 				c.expected,
-				g.Generate(),
+				g.BinaryStringGenerate(c.n),
 			)
 		})
 	}
 }
 
-var result []string
+var benchmarkGenerateBinaryStringResult []string
 
 func BenchmarkGenerateBinaryString(b *testing.B) {
 	var r []string
-	g := generation.BinaryStringGenerator{
-		N: 10,
-	}
+	g := generation.Generation{}
 	for n := 0; n < b.N; n++ {
 		// always record the result of Fib to prevent
 		// the compiler eliminating the function call.
-		r = g.Generate()
+		r = g.BinaryStringGenerate(10)
 	}
 	// always store the result to a package level variable
 	// so the compiler cannot eliminate the Benchmark itself.
-	result = r
+	benchmarkGenerateBinaryStringResult = r
 }
 
-func (s *testBinaryStringGenerator) TestGenerateBinaryStringFP() {
+func (s *GenerationTestSuit) TestGenerateBinaryStringFP() {
 	testcases := []struct {
 		name     string
 		n        int
@@ -103,26 +90,26 @@ func (s *testBinaryStringGenerator) TestGenerateBinaryStringFP() {
 
 	for _, c := range testcases {
 		s.T().Run(c.name, func(t *testing.T) {
-			g := generation.BinaryStringGenerator{}
+			g := generation.Generation{}
 			s.Assert().Equal(
 				c.expected,
-				g.GenerateFP(c.n, []string{}),
+				g.BinaryStringGenerateFP(c.n, []string{}),
 			)
 		})
 	}
 }
 
-var resultFP []string
+var benchmarkGenerateBinaryStringFPResult []string
 
 func BenchmarkGenerateBinaryStringFP(b *testing.B) {
 	var r []string
-	g := generation.BinaryStringGenerator{}
+	g := generation.Generation{}
 	for n := 0; n < b.N; n++ {
 		// always record the result of Fib to prevent
 		// the compiler eliminating the function call.
-		r = g.GenerateFP(10, []string{})
+		r = g.BinaryStringGenerateFP(10, []string{})
 	}
 	// always store the result to a package level variable
 	// so the compiler cannot eliminate the Benchmark itself.
-	resultFP = r
+	benchmarkGenerateBinaryStringFPResult = r
 }
