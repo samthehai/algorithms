@@ -28,8 +28,6 @@ func (comp *CompressString) Compress(str string) string {
 
 	compStr += comp.calcPartialCompStr(prev, count)
 
-	fmt.Println(compStr)
-
 	if len(compStr) < len(str) {
 		return compStr
 	}

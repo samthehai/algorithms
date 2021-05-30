@@ -14,6 +14,7 @@ class CompressString(object):
                 count = 1
 
         compstr += self._calc_partial_compstr(prev, count)
+
         return compstr if len(compstr) < len(str) else str
 
     def _calc_partial_compstr(self, prev, count):
