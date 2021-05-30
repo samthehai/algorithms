@@ -1,4 +1,4 @@
-package dp
+package tilingproblems
 
 // How many ways can you tile a board length of n with red tiles length of 1
 // and blue tiles length of 2

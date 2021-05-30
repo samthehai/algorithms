@@ -1,4 +1,6 @@
-package dp
+package assigntask
+
+import "github.com/samthehai/algorithms/dp"
 
 // There are persons and tasks, each task is to be alloted to a single person.
 // We are also given a matrix  of size , where  denotes, how much person  is going to charge for task .
@@ -8,7 +10,7 @@ type AssignTask struct {
 }
 
 func (a AssignTask) BruteForce(n int, costs [][]int) int {
-	minCost := maxInt
+	minCost := dp.MaxInt
 	assignedTaskToPersonMap := make(map[int]int)
 	var assign func(person int, cost int)
 
