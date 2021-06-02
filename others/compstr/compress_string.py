@@ -3,7 +3,7 @@ class CompressString(object):
         if str is None or not str:
             return str
 
-        compstr, prev, count = '', str[0], 1
+        compstr, prev, count = '', str[0], 0
 
         for c in str:
             if c == prev:
